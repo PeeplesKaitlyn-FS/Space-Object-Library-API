@@ -5,7 +5,7 @@ const express = require(`express`)
 const starCtlr = require(`../controllers/star.js`)
 
 // Create a new Router instance and call it "router"
-const router = new express.Router()
+const router = express.Router()
 
 // RESTful resource mappings
 router.get(`/`, starCtlr.index)

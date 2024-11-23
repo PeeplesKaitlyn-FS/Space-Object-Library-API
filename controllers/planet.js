@@ -1,32 +1,33 @@
-// Show all resources
-const index = (req, res) => {
-  // Respond with an array and 2xx status code
-  res.status(200).json([`Planet#index`])
-}
+const { Planet } = require(`../models/Planet`)
 
-// Show resource
-const show = (req, res) => {
-  // Respond with a single object and 2xx code
-  res.status(200).json(`Planet#show(:id)`)
-}
 
-// Create a new resource
-const create = (req, res) => {
-  // Issue a redirect with a success 2xx code
-  res.redirect(`/planets`, 201)
+module.exports = {
+  index: async (req, res) => {
+    const planets = await Planet.findAll()
+    res.json(planets)
+  },
+  create: async (req, res) => {
+    const name = req.body.name
+    const description = req.body.description
+    const planet = await Planet.create({name, description})
+    res.json(planet)
+  },
+  show: async (req, res) => {
+    const id = req.params.id
+    const planet = await Planet.findByPk(id)
+    res.json(planet)
+  },
+  update: async (req, res) => {
+    const id = req.params.id
+    const planet = await Planet.findByPk(id)
+    planet.name = req.body.name
+    planet.description = req.body.description
+    await planet.save()
+    res.json(planet)
+  },
+  remove: async (req, res) => {
+    const id = req.params.id
+    await Planet.destroy({ where: { id: id } })
+    res.json({ message: "Planet deleted successfully" })
+  }
 }
-
-// Update an existing resource
-const update = (req, res) => {
-  // Respond with a single resource and 2xx code
-  res.status(200).json(`/planets/${req.params.id}`, )
-}
-
-// Remove a single resource
-const remove = (req, res) => {
-  // Respond with a 2xx status code and bool
-  res.status(204).json(true)
-}
-
-// Export all controller actions
-module.exports = { index, show, create, update, remove }

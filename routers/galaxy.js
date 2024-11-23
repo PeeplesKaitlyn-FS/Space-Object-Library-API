@@ -5,7 +5,7 @@ const express = require(`express`)
 const galaxyCtlr = require(`../controllers/galaxy.js`)
 
 // Create a new Router instance and call it "router"
-const router = new express.Router()
+const router = express.Router()
 
 // RESTful resource mappings
 router.get(`/`, galaxyCtlr.index)

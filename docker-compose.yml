@@ -24,7 +24,7 @@ services:
     volumes:
       - ./:/home/node/app
     ports:
-      - "3000:3000"
+      - "3001:3001"
     command: >
       sh -c "rm -rf node_modules &&
              npm install &&

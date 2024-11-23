@@ -10,11 +10,13 @@ router.get(`/`, async (req, res) => {
 })
 
 router.post(`/`, async (req, res) => {
-    const { id,name } = req.body
-    quizzes.push({ 
-        id: Number(id),
-        name 
-    })
+    //const { id,name } = req.body
+    //quizzes.push({ 
+     //   id: Number(id),
+     //   name 
+    //})
+    const name = req.body.name
+    const quiz =await Quiz.create({name})
     res.json(quizzes)
 })
 

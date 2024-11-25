@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('galaxies', [
+    await queryInterface.bulkInsert('Galaxies', [
       {
         name: 'Milky Way',
         size: 'Spiral',
@@ -21,25 +21,13 @@ module.exports = {
         description: 'A small spiral galaxy in the constellation Triangulum',
         createdAt: new Date(),
         updatedAt: new Date()
-      },
-      {
-        name: 'Sombrero',
-        size: 'Spiral',
-        description: 'A large spiral galaxy in the constellation Virgo',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'Pinwheel',
-        size: 'Spiral',
-        description: 'A large spiral galaxy in the constellation Ursa Major',
-        createdAt: new Date(),
-        updatedAt: new Date()
       }
-    ]);
+    ], {
+      ignoreDuplicates: true
+    });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('galaxies', null, {});
+    await queryInterface.bulkDelete('Galaxies', null, {});
   }
 };

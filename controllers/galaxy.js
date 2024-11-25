@@ -46,10 +46,10 @@ const create = async (req, res) => {
       res.status(400).send({ message: 'Invalid request body', error: result.error.details });
     } else {
       const existingGalaxy = await Galaxy.findOne({
-        where: { name: req.body.name, description: req.body.description }
+        where: { name: req.body.name }
       });
       if (existingGalaxy) {
-        res.status(400).send({ message: 'Galaxy with this name and description already exists' });
+        res.status(400).send({ message: 'Galaxy with this name already exists' });
       } else {
         const galaxy = await Galaxy.create(req.body);
         res.status(201).json(galaxy);

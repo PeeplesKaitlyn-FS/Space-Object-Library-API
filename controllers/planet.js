@@ -1,5 +1,6 @@
 const { Planet } = require(`../models/Planet`)
-
+const db = require('../models/index');
+const Planet = db.Planet;
 
 module.exports = {
   index: async (req, res) => {

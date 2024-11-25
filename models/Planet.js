@@ -8,17 +8,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Planet.belongsToMany(models.Star, { through: 'PlanetStars' });
-      Planet.belongsTo(models.Star, { foreignKey: 'starId' });
     }
   }
   Planet.init({
     name: DataTypes.STRING,
     size: DataTypes.INTEGER,
     description: DataTypes.TEXT,
-    starId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Planet',
+    tableName: 'planets'
   });
   return Planet;
 };

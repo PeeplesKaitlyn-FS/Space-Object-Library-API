@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Quiz extends Model {
+  class StarsPlanets extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,13 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      StarsPlanets.belongsTo(models.Star, { foreignKey: 'starId' });
+      StarsPlanets.belongsTo(models.Planet, { foreignKey: 'planetId' });
     }
   }
-  Quiz.init({
-    name: DataTypes.STRING
+  StarsPlanets.init({
+    starId: DataTypes.INTEGER,
+    planetId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Quiz',
+    modelName: 'StarsPlanets',
   });
-  return Quiz;
+  return StarsPlanets;
 };

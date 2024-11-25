@@ -2,8 +2,9 @@ services:
   wdv442-mysql:
     image: mysql:8.0
     restart: always
-    networks: 
-      - wdv442
+    networks:
+      wdv442:
+        ipv4_address: 172.18.0.2
     volumes:
       - ./var:/var/lib/mysql
     environment:
@@ -13,18 +14,24 @@ services:
       MYSQL_DATABASE: wdv442_space_tracker
     ports:
       - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
   wdv442-node:
     image: node:latest
     user: node
     working_dir: /home/node/app
     networks:
-      - wdv442
+      wdv442:
+        ipv4_address: 172.18.0.3
     environment:
       - NODE_ENV=development
+      - DATABASE_HOST=localhost
     volumes:
       - ./:/home/node/app
     ports:
-      - "3001:3001"
+      - "3000:3000"
     command: >
       sh -c "rm -rf node_modules &&
              npm install &&
@@ -36,4 +43,6 @@ services:
       - wdv442-mysql
 networks:
   wdv442:
-
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16

@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Star.belongsTo(models.Galaxy, { foreignKey: 'galaxyId' });
-      Star.hasMany(models.Planet, { foreignKey: 'starId' });
+      Star.belongsToMany(models.Planet, { through: models.StarsPlanets });
     }
   }
   Star.init({
@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Star',
+    
   });
   return Star;
 };

@@ -18,5 +18,5 @@ app.use(`/stars`,    routers.star)
 app.use(`/galaxies`, routers.galaxy)
 
 
-// Set our app to listen on port 3001
-app.listen(3001)
+// Set our app to listen on port 3000
+app.listen(3000)

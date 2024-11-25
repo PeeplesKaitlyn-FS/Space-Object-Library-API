@@ -2,24 +2,24 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('wdv442_space_tracker.stars', [
+    await queryInterface.bulkInsert('Stars', [
       {
         name: 'Sun',
-        size: 'Medium',
+        size: 100,
         description: 'The star at the center of our solar system',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         name: 'Sirius',
-        size: 'Large',
+        size: 150,
         description: 'The brightest star in the night sky',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         name: 'Betelgeuse',
-        size: 'Red Supergiant',
+        size: 200,
         description: 'A red supergiant star in the constellation Orion',
         createdAt: new Date(),
         updatedAt: new Date()
@@ -28,6 +28,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('wdv442_space_tracker.stars', null, {});
+    await queryInterface.bulkDelete('Stars', null, {});
   }
 };

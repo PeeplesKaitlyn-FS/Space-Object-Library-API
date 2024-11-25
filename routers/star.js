@@ -8,6 +8,7 @@ const starCtlr = require(`../controllers/star.js`)
 const router = express.Router()
 
 // RESTful resource mappings
+router.get(`/`, starCtlr.index)
 router.get(`/stars`, starCtlr.index);
 router.post(`/stars`, starCtlr.create);
 router.get(`/stars/:id`, starCtlr.show);

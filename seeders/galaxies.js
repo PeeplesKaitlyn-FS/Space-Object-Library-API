@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('galaxies', [
@@ -21,6 +19,20 @@ module.exports = {
         name: 'Triangulum',
         size: 'Spiral',
         description: 'A small spiral galaxy in the constellation Triangulum',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Sombrero',
+        size: 'Spiral',
+        description: 'A large spiral galaxy in the constellation Virgo',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Pinwheel',
+        size: 'Spiral',
+        description: 'A large spiral galaxy in the constellation Ursa Major',
         createdAt: new Date(),
         updatedAt: new Date()
       }

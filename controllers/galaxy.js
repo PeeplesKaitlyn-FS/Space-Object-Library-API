@@ -1,9 +1,6 @@
 const express = require(`express`)
-const router = express.Router()
 const { Galaxy } = require(`../models`);
-const bodyParser = require(`body-parser`)
 const Joi = require('joi');
-router.use(bodyParser.urlencoded({ extended: false }))
 
 
 const galaxySchema = Joi.object().keys({
@@ -48,15 +45,21 @@ const create = async (req, res) => {
       console.error('Validation error:', result.error);
       res.status(400).send({ message: 'Invalid request body', error: result.error.details });
     } else {
-      const galaxy = await Galaxy.create(req.body); 
-      res.status(201).json(galaxy); 
+      const existingGalaxy = await Galaxy.findOne({
+        where: { name: req.body.name, description: req.body.description }
+      });
+      if (existingGalaxy) {
+        res.status(400).send({ message: 'Galaxy with this name and description already exists' });
+      } else {
+        const galaxy = await Galaxy.create(req.body);
+        res.status(201).json(galaxy);
+      }
     }
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 }
-
 
 // Update an existing resource
 const update = async (req, res) => {
@@ -70,10 +73,17 @@ const update = async (req, res) => {
       if (!galaxy) {
         res.status(404).send('Galaxy not found');
       } else {
-        galaxy.name = req.body.name;
-        galaxy.description = req.body.description;
-        await galaxy.save(); 
-        res.status(200).json(galaxy);
+        const existingGalaxy = await Galaxy.findOne({
+          where: { name: req.body.name, description: req.body.description, id: { [Sequelize.Op.ne]: req.params.id } }
+        });
+        if (existingGalaxy) {
+          res.status(400).send({ message: 'Galaxy with this name and description already exists' });
+        } else {
+          galaxy.name = req.body.name;
+          galaxy.description = req.body.description;
+          await galaxy.save(); 
+          res.status(200).json(galaxy);
+        }
       }
     }
   } catch (error) {

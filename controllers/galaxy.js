@@ -1,12 +1,12 @@
 const express = require(`express`)
 const router = express.Router()
-const { Planet } = require(`../models/Galaxy`)
+const { Galaxy } = require(`../models`);
 const bodyParser = require(`body-parser`)
 const Joi = require('joi');
 router.use(bodyParser.urlencoded({ extended: false }))
 
 
-const planetSchema = Joi.object().keys({
+const galaxySchema = Joi.object().keys({
   name: Joi.string().required(),
   description: Joi.string().required()
 });
@@ -15,8 +15,8 @@ const planetSchema = Joi.object().keys({
 // Show all resources
 const index = async (req, res) => {
   try {
-    const planets = await Planet.findAll(); 
-    res.status(200).json(planets); 
+    const galaxies = await Galaxy.findAll(); 
+    res.status(200).json(galaxies); 
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -27,11 +27,11 @@ const index = async (req, res) => {
 // Show resource
 const show = async (req, res) => {
   try {
-    const planet = await Planet.findByPk(req.params.id); 
-    if (!planet) {
-      res.status(404).send('Planet not found');
+    const galaxy = await Galaxy.findByPk(req.params.id); 
+    if (!galaxy) {
+      res.status(404).send('Galaxy not found');
     } else {
-      res.status(200).json(planet); 
+      res.status(200).json(galaxy); 
     }
   } catch (error) {
     console.error(error);
@@ -43,13 +43,13 @@ const show = async (req, res) => {
 // Create a new resource
 const create = async (req, res) => {
   try {
-    const result = planetSchema.validate(req.body);
+    const result = galaxySchema.validate(req.body);
     if (result.error) {
       console.error('Validation error:', result.error);
       res.status(400).send({ message: 'Invalid request body', error: result.error.details });
     } else {
-      const planet = await Planet.create(req.body); 
-      res.status(201).json(planet); 
+      const galaxy = await Galaxy.create(req.body); 
+      res.status(201).json(galaxy); 
     }
   } catch (error) {
     console.error(error);
@@ -61,19 +61,19 @@ const create = async (req, res) => {
 // Update an existing resource
 const update = async (req, res) => {
   try {
-    const result = planetSchema.validate(req.body);
+    const result = galaxySchema.validate(req.body);
     if (result.error) {
       console.error('Validation error:', result.error);
       res.status(400).send({ message: 'Invalid request body', error: result.error.details });
     } else {
-      const planet = await Planet.findByPk(req.params.id); 
-      if (!planet) {
-        res.status(404).send('Planet not found');
+      const galaxy = await Galaxy.findByPk(req.params.id); 
+      if (!galaxy) {
+        res.status(404).send('Galaxy not found');
       } else {
-        planet.name = req.body.name;
-        planet.description = req.body.description;
-        await planet.save(); 
-        res.status(200).json(planet);
+        galaxy.name = req.body.name;
+        galaxy.description = req.body.description;
+        await galaxy.save(); 
+        res.status(200).json(galaxy);
       }
     }
   } catch (error) {
@@ -86,7 +86,7 @@ const update = async (req, res) => {
 // Remove a single resource
 const remove = async (req, res) => {
   try {
-    await Planet.destroy({ where: { id: req.params.id } }); 
+    await Galaxy.destroy({ where: { id: req.params.id } }); 
     res.status(204).send(); 
   } catch (error) {
     console.error(error);

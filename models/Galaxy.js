@@ -12,11 +12,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Galaxy.init({
     name: DataTypes.STRING,
-    size: DataTypes.INTEGER,
+    size: DataTypes.STRING,
     description: DataTypes.TEXT
   }, {
     sequelize,
-    modelName: 'Galaxy',
+    modelName: 'Galaxy'
   });
   return Galaxy;
 };

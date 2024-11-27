@@ -1,1 +1,6 @@
-<h1>Hello {{ name }}!<h1>
+{% extends 'layouts/_default.twig' %}
+{% block main_content %}
+    {% include 'partials/header.twig' %}
+    <h1>Hello {{ planets }}!<h1>
+    {% include 'partials/footer.twig' %}
+{% endblock %}

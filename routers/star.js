@@ -15,5 +15,11 @@ router.get(`/stars/:id`, starCtlr.show);
 router.put(`/stars/:id`, starCtlr.update);
 router.delete(`/stars/:id`, starCtlr.remove);
 
+//html5 specific routes
+router.get(`/new`, starCtlr.form);
+router.get(`/:id/edit`, starCtlr.form);
+router.get(`/:id/delete`, starCtlr.remove);
+router.post(`/:id/`, starCtlr.update);
+
 // export "router"
 module.exports = router

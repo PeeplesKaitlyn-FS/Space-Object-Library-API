@@ -1,13 +1,9 @@
-const express = require('express');
-const db = require('../models/index');
-const Star = db.Star;
+const { Star } = require('../models/index');
 
 const starCtlr = {
   index: async (req, res) => {
     const products = await Star.findAll();
     res.render('views/products/index.twig', { products });
-    const stars = await Star.findAll();
-    res.json(stars);
   },
   create: async (req, res) => {
     res.render('views/products/index.twig');

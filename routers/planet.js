@@ -17,6 +17,11 @@ router.get(`/:id`, planetCtlr.show)
 router.put(`/:id`, planetCtlr.update) 
 router.delete(`/:id`, planetCtlr.remove) 
 
+//html5 specific routes
+router.get(`/new`, planetCtlr.form)
+router.get(`/:id/edit`, planetCtlr.form)
+router.get(`/:id/delete`, planetCtlr.remove)
+router.post(`/:id/`, planetCtlr.update)
 
 // export "router"
 module.exports = router

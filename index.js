@@ -14,9 +14,8 @@ app.set('view engine', 'twig');
 
 // Home page welcome middleware
 app.get('/', async (req, res) => {
-  const planets = await Planet.findByPk(1);
-  res.render('home/home', { planets });
-});
+  const products = await Planet.findAll();
+res.render('./products/index', { products });});
 
 // Register our RESTful routers with our "app"
 app.use(`/planets`,  routers.planet)

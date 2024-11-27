@@ -14,23 +14,18 @@ app.set('view engine', 'twig');
 
 // Home page welcome middleware
 app.get('/', async (req, res) => {
-  const planets = await db.Planet.findByPk(3);
-  res.render('home', { planets: planets });
+  const planets = await Planet.findAll();
+  res.render('home/home', { planets });
 });
 
-app.get('/planets', async (req, res) => {
-  const planets = await db.Planet.findAll();
-  res.render('planets', { planets: planets });
-}); 
-
 app.get('/stars', async (req, res) => {
-  const stars = await db.Star.findAll();
-  res.render('stars', { stars: stars });
+  const stars = await Star.findAll();
+  res.render('stars', { stars });
 }); 
 
 app.get('/galaxies', async (req, res) => {
-  const galaxies = await db.Galaxy.findAll();
-  res.render('galaxies', { galaxies: galaxies });
+  const galaxies = await Galaxy.findAll();
+  res.render('galaxies', { galaxies });
 })
 
 // Register our RESTful routers with our "app"

@@ -1,0 +1,19 @@
+{% extends 'layouts/home.twig' %}
+
+{% block pageName %}view all products{% endblock %}
+
+{% block main %}
+<h1>all products:</h1>
+    <ul>
+    {% for product in products %}
+        <li>
+            {{ product.title }} - 
+            <a href="products/{{ product.id }}">show</a> | 
+             <a href="products/{{ product.id }}/edit">show</a>Edit | 
+             <a href="products/{{ product.id }}/delete">show</a>Delete |
+        </li>
+    {% endfor %}
+    </ul>
+
+    <a href="products/new">Create New Product</a>
+{% endblock %}

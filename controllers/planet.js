@@ -1,4 +1,14 @@
-const { Planet } = require('../models');
+const { Sequelize } = require('../db');
+const db = require('../db');
+
+const Planet = db.define(`planet`, {
+  name: {
+    type: Sequelize.STRING
+  },
+  description: {
+    type: Sequelize.STRING
+  }
+});
 
 module.exports = {
   index: async (req, res) => {
@@ -6,20 +16,17 @@ module.exports = {
     res.render('views/planets/index.twig', { products });
   },
   create: async (req, res) => {
-    res.render('views/planets/index.twig');
     const name = req.body.name;
     const description = req.body.description;
     const planet = await Planet.create({ name, description });
     res.json(planet);
   },
   show: async (req, res) => {
-    res.render('views/planets/index.twig');
     const id = req.params.id;
     const planet = await Planet.findByPk(id);
     res.json(planet);
   },
   update: async (req, res) => {
-    res.status(200).json('product#update');
     const id = req.params.id;
     const planet = await Planet.findByPk(id);
     planet.name = req.body.name;
@@ -28,9 +35,8 @@ module.exports = {
     res.json(planet);
   },
   remove: async (req, res) => {
-    res.status(200).json('product#remove');
     const id = req.params.id;
-    await Planet.destroy({ where: { id: id } });
+    await Planet.destroy({ where: { id } });
     res.json({ message: "Planet deleted successfully" });
   },
   form: async (req, res) => {

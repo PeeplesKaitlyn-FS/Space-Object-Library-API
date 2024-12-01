@@ -3,17 +3,17 @@ const { Planet } = require('../models');
 module.exports = {
   index: async (req, res) => {
     const products = await Planet.findAll();
-    res.render('views/products/index.twig', { products });
+    res.render('views/planets/index.twig', { products });
   },
   create: async (req, res) => {
-    res.render('views/products/index.twig');
+    res.render('views/planets/index.twig');
     const name = req.body.name;
     const description = req.body.description;
     const planet = await Planet.create({ name, description });
     res.json(planet);
   },
   show: async (req, res) => {
-    res.render('views/products/index.twig');
+    res.render('views/planets/index.twig');
     const id = req.params.id;
     const planet = await Planet.findByPk(id);
     res.json(planet);
@@ -34,6 +34,11 @@ module.exports = {
     res.json({ message: "Planet deleted successfully" });
   },
   form: async (req, res) => {
-    res.status(200).json('product#form(:id)');
+    if ('undefined' !== typeof req.params.id) {
+      const product = await Planet.findByPk(req.params.id);
+      res.render('views/product/_form.twig', { product });
+    } else {
+      res.render('views/product/_form.twig');
+    }
   }
 };

@@ -1,0 +1,50 @@
+{% if product is defined %}
+    <form action="/products/{{ product.id }}" method="POST">
+     <input 
+     type="hidden" 
+     name="id" 
+     value="{{ product.id }}" />
+{% elseif %}
+    <form 
+    action="/products" 
+    method="POST">
+{% endif %}
+
+<div class="control">
+ <label>Title:</label>
+ <input type="text" 
+ name="title" 
+ {% if product is defined %}
+ value="{{ product.title }}"
+ {% endif %} 
+ />
+</div>
+
+<div class="control">
+ <label>Description:</label>
+ <textarea name="description">{{ product.description }}</textarea>
+</div>
+
+<div class="control">
+ <label>Price:</label>
+ <input type="text" 
+ name="price" 
+ {% if product is defined %}
+ value="{{ product.price }}"
+ {% endif %} 
+ />
+</div>
+
+<div class="control">
+ <label>Slug:</label>
+ <input type="text" 
+ name="slug" 
+ {% if product is defined %}
+ value="{{ product.slug }}"
+ {% endif %} 
+ />
+</div>
+<button type="submit">
+    {% if product is defined %}Update{% else %}Create{% endif %} Product
+</button>
+</form>

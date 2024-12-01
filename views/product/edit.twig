@@ -1,0 +1,7 @@
+<h1>Edit {{ product.title }}</h1>
+
+{% block pageName %}Edit {{ product.title }}{% endblock %}
+
+{% block  main %}
+{% include 'views/product/_form.twig' with { "product": product %}
+{% endblock %}

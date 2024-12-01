@@ -11,9 +11,9 @@ const router = express.Router()
 router.get(`/`, starCtlr.index)
 router.get(`/stars`, starCtlr.index);
 router.post(`/stars`, starCtlr.create);
-router.get(`/stars/:id`, starCtlr.show);
-router.put(`/stars/:id`, starCtlr.update);
-router.delete(`/stars/:id`, starCtlr.remove);
+router.get(`/stars/:id(\d+)`, starCtlr.show);
+router.put(`/stars/:id(\d+)`, starCtlr.update);
+router.delete(`/stars/:id(\d+)`, starCtlr.remove);
 
 //html5 specific routes
 router.get(`/new`, starCtlr.form);

@@ -1,19 +1,19 @@
-const { Star } = require('../models/index');
+const { Star } = require('../models');
 
 const starCtlr = {
   index: async (req, res) => {
-    const products = await Star.findAll();
-    res.render('views/products/index.twig', { products });
+    const products = await Star.findAll({ raw: true });
+    res.render('./stars/index.twig', { products });
   },
   create: async (req, res) => {
-    res.render('views/products/index.twig');
+    res.render('views/stars/index.twig');
     const name = req.body.name;
     const description = req.body.description;
     const star = await Star.create({ name, description });
     res.json(star);
   },
   show: async (req, res) => {
-    res.render('views/products/index.twig');
+    res.render('views/stars/index.twig');
     const id = req.params.id;
     const star = await Star.findByPk(id);
     res.json(star);
@@ -34,7 +34,12 @@ const starCtlr = {
     res.json({ message: "Star deleted successfully" });
   },
   form: async (req, res) => {
-    res.status(200).json('product#form(:id)');
+    if ('undefined' !== typeof req.params.id) {
+      const product = await Star.findByPk(req.params.id);
+      res.render('views/product/_form.twig', { product });
+    } else {
+      res.render('views/product/_form.twig');
+    }
   }
 };
 module.exports = starCtlr;

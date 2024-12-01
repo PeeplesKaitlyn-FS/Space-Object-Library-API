@@ -13,9 +13,9 @@ const router = express.Router()
 // RESTful resource mappings
 router.get(`/`, planetCtlr.index)
 router.post(`/`, planetCtlr.create)
-router.get(`/:id`, planetCtlr.show) 
-router.put(`/:id`, planetCtlr.update) 
-router.delete(`/:id`, planetCtlr.remove) 
+router.get(`/:id(\d+)`, planetCtlr.show) 
+router.put(`/:id(\d+)`, planetCtlr.update) 
+router.delete(`/:id(\d+)`, planetCtlr.remove) 
 
 //html5 specific routes
 router.get(`/new`, planetCtlr.form)

@@ -3,6 +3,9 @@ const express = require(`express`)
 // Create a new Express instance called "app"
 const app = express()
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+
 const { Planet } = require('./models');
 // Load in our JSON parsing middleware
 app.use(express.json());

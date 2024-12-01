@@ -1,19 +1,19 @@
-{% extends 'layouts/home.twig' %}
+{% extends 'layouts/_default.twig' %}
 
-{% block pageName %}view all products{% endblock %}
+{% block pageName %}View All Stars{% endblock %}
 
 {% block main %}
-<h1>all products:</h1>
+<h1>All stars:</h1>
     <ul>
-    {% for product in products %}
+    {% for star in stars %}
         <li>
-            {{ product.title }} - 
-            <a href="products/{{ product.id }}">show</a> | 
-             <a href="products/{{ product.id }}/edit">show</a>Edit | 
-             <a href="products/{{ product.id }}/delete">show</a>Delete |
+            {{ star.name }} - 
+            <a href="stars/{{ star.id }}">show</a> | 
+            <a href="stars/{{ star.id }}/edit">Edit</a> | 
+            <a href="stars/{{ star.id }}/delete">Delete</a>
         </li>
     {% endfor %}
     </ul>
 
-    <a href="products/new">Create New Product</a>
+<a href="stars/new">Create New Star</a>
 {% endblock %}

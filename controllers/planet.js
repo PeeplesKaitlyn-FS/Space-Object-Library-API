@@ -12,8 +12,8 @@ const Planet = db.define(`planet`, {
 
 module.exports = {
   index: async (req, res) => {
-    const products = await Planet.findAll();
-    res.render('views/planets/index.twig', { products });
+    const planets = await Planet.findAll();
+    res.render('views/planets/index.twig', { planets });
   },
   create: async (req, res) => {
     const name = req.body.name;

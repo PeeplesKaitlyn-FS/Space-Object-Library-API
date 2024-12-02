@@ -7,10 +7,12 @@
     <ul>
     {% for galaxy in galaxies %}
         <li>
-            {{ galaxy.name }} - 
-            <a href="galaxies/{{ galaxy.id }}">show</a> | 
-            <a href="galaxies/{{ galaxy.id }}/edit">Edit</a> | 
-            <a href="galaxies/{{ galaxy.id }}/delete">Delete</a>
+            {{ galaxy.dataValues.name }} - 
+            {{ galaxy.dataValues.size }} - 
+            {{ galaxy.dataValues.description }} - 
+            <a href="galaxies/{{ galaxy.dataValues.id }}">show</a> | 
+            <a href="galaxies/{{ galaxy.dataValues.id }}/edit">Edit</a> | 
+            <a href="galaxies/{{ galaxy.dataValues.id }}/delete">Delete</a>
         </li>
     {% endfor %}
     </ul>

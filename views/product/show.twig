@@ -1,0 +1,9 @@
+{% extends 'layouts/_default.twig' %}
+
+{% block pageName %}View Galaxy{% endblock %}
+
+{% block main %}
+<h1>Galaxy:</h1>
+    <p>Name: {{ galaxy.dataValues.name }}</p>
+    <p>Description: {{ galaxy.dataValues.description }}</p>
+{% endblock %}

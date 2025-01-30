@@ -29,25 +29,33 @@ const show = async (req, res) => {
 // Create a new resource
 const create = async (req, res) => {
   const galaxy = await Galaxy.create(req.body);
-  res.redirect(302, `/galaxies/${galaxy.id}`);
+  res.redirect(`/galaxies/${galaxy.id}`);
 }
 
 // Update an existing resource
 const update = async (req, res) => {
   const id = req.params.id;
   const galaxy = await Galaxy.findByPk(id);
+  if (!galaxy) {
+    res.status(404).send({ message: 'Galaxy not found' });
+    return;
+  }
+  if (!req.body.name || !req.body.size || !req.body.description) {
+    res.status(400).send({ message: 'Missing required fields' });
+    return;
+  }
   galaxy.name = req.body.name;
   galaxy.size = req.body.size;
   galaxy.description = req.body.description;
   await galaxy.save();
-  res.redirect(302, `/galaxies/${galaxy.id}`);
+  res.redirect(`/galaxies/${galaxy.id}`);
 }
 
 // Remove a single resource
 const remove = async (req, res) => {
   const id = req.params.id;
   await Galaxy.destroy({ where: { id } });
-  res.redirect(302, `/galaxies`);
+  res.redirect(`/galaxies`);
 }
 
 const form = async (req, res) => {

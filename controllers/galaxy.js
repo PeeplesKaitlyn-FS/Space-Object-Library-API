@@ -1,69 +1,101 @@
-const { Sequelize } = require('../db');
-const db = require('../db');
-
-const Galaxy = db.define(`galaxy`, {
-  name: {
-    type: Sequelize.STRING
-  },
-  size: {
-    type: Sequelize.STRING
-  },
-  description: {
-    type: Sequelize.STRING
-  }
-});
+const { Galaxy } = require('../db');
 
 // Show all resources
 const index = async (req, res) => {
-  const galaxies = await Galaxy.findAll();
-  res.render('views/galaxies/index.twig', { galaxies });
+  try {
+    const galaxies = await Galaxy.findAll();
+    res.render('views/galaxies/index.twig', { galaxies });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error retrieving galaxies' });
+  }
 }
 
 // Show resource
 const show = async (req, res) => {
-  const id = req.params.id;
-  const galaxy = await Galaxy.findByPk(id);
-  res.render('views/galaxies/show.twig', { galaxy });
+  try {
+    const id = req.params.id;
+    const galaxy = await Galaxy.findByPk(id);
+    if (!galaxy) {
+      res.status(404).send({ message: 'Galaxy not found' });
+      return;
+    }
+    res.render('views/galaxies/show.twig', { galaxy });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error retrieving galaxy' });
+  }
 }
 
 // Create a new resource
 const create = async (req, res) => {
-  const galaxy = await Galaxy.create(req.body);
-  res.redirect(`/galaxies/${galaxy.id}`);
+  try {
+    const { name, size, description } = req.body;
+    if (!name || !size || !description) {
+      res.status(400).send({ message: 'Missing required fields' });
+      return;
+    }
+    const galaxy = await Galaxy.create(req.body);
+    res.redirect(`/galaxies/${galaxy.id}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error creating galaxy' });
+  }
 }
 
 // Update an existing resource
 const update = async (req, res) => {
-  const id = req.params.id;
-  const galaxy = await Galaxy.findByPk(id);
-  if (!galaxy) {
-    res.status(404).send({ message: 'Galaxy not found' });
-    return;
+  try {
+    const id = req.params.id;
+    const galaxy = await Galaxy.findByPk(id);
+    if (!galaxy) {
+      res.status(404).send({ message: 'Galaxy not found' });
+      return;
+    }
+    const { name, size, description } = req.body;
+    if (!name || !size || !description) {
+      res.status(400).send({ message: 'Missing required fields' });
+      return;
+    }
+    galaxy.name = name;
+    galaxy.size = size;
+    galaxy.description = description;
+    await galaxy.save();
+    res.redirect(`/galaxies/${galaxy.id}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error updating galaxy' });
   }
-  if (!req.body.name || !req.body.size || !req.body.description) {
-    res.status(400).send({ message: 'Missing required fields' });
-    return;
-  }
-  galaxy.name = req.body.name;
-  galaxy.size = req.body.size;
-  galaxy.description = req.body.description;
-  await galaxy.save();
-  res.redirect(`/galaxies/${galaxy.id}`);
 }
 
 // Remove a single resource
 const remove = async (req, res) => {
-  const id = req.params.id;
-  await Galaxy.destroy({ where: { id } });
-  res.redirect(`/galaxies`);
+  try {
+    const id = req.params.id;
+    const galaxy = await Galaxy.findByPk(id);
+    if (!galaxy) {
+      res.status(404).send({ message: 'Galaxy not found' });
+      return;
+    }
+    await Galaxy.destroy({ where: { id } });
+    res.redirect(`/galaxies`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error deleting galaxy' });
+  }
 }
 
 const form = async (req, res) => {
-  if ('undefined' !== typeof req.params.id) {
-    const galaxy = await Galaxy.findByPk(req.params.id);
-    res.render('views/product/_form.twig', { galaxy });
-  } else {
-    res.render('views/product/_form.twig');
+  try {
+    if ('undefined' !== typeof req.params.id) {
+      const galaxy = await Galaxy.findByPk(req.params.id);
+      res.render('views/product/_form.twig', { galaxy });
+    } else {
+      res.render('views/product/_form.twig');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error rendering form' });
   }
 }
 

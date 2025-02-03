@@ -1,15 +1,15 @@
 console.log('Application started');
 
 // Load in Express framework
-const express = require(`express`)
+const express = require('express');
 
 // Create a new Express instance called "app"
-const app = express()
+const app = express();
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const { Planet, Galaxy, Star } = require('./models');
+const { Planet, Galaxy, Star, StarsPlanets } = require('./models');
 
 app.use(express.json());
 
@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
     res.render('home/index');
   } catch (error) {
     console.error('Error rendering home page:', error);
-    res.status(500).send('Error rendering home page');
+    res.status(500).json({ error: 'Error rendering home page' });
   }
 });
 
@@ -34,11 +34,14 @@ app.get('/galaxies', async (req, res) => {
     const galaxies = await Galaxy.findAll({
       attributes: ['id', 'name', 'size']
     });
-    res.render('galaxies/index', { galaxies });
-    console.log('Galaxies:', galaxies);
+    if (galaxies.length === 0) {
+      res.render('galaxies/index', { message: 'No galaxies found' });
+    } else {
+      res.render('galaxies/index', { galaxies });
+    }
   } catch (error) {
     console.error('Error fetching galaxies:', error);
-    res.status(500).send('Error fetching galaxies');
+    res.status(500).json({ error: 'Error fetching galaxies' });
   }
 });
 
@@ -47,10 +50,9 @@ app.get('/stars', async (req, res) => {
   try {
     const stars = await Star.findAll();
     res.render('stars/index', { stars });
-    console.log('Stars:', stars);
   } catch (error) {
     console.error('Error fetching stars:', error);
-    res.status(500).send('Error fetching stars');
+    res.status(500).json({ error: 'Error fetching stars' });
   }
 });
 
@@ -61,10 +63,20 @@ app.get('/planets', async (req, res) => {
       attributes: ['id', 'name', 'size']
     });
     res.render('planets/index', { planets });
-    console.log('Planets:', planets);
   } catch (error) {
     console.error('Error fetching planets:', error);
-    res.status(500).send('Error fetching planets');
+    res.status(500).json({ error: 'Error fetching planets' });
+  }
+});
+
+// StarsPlanets page
+app.get('/stars-planets', async (req, res) => {
+  try {
+    const starsPlanets = await StarsPlanets.findAll();
+    res.render('stars-planets/index', { starsPlanets });
+  } catch (error) {
+    console.error('Error fetching stars-planets:', error);
+    res.status(500).json({ error: 'Error fetching stars-planets' });
   }
 });
 

@@ -1,4 +1,5 @@
 const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Star extends Model {
     /**
@@ -8,18 +9,29 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Star.belongsTo(models.Galaxy, { foreignKey: 'galaxyId' });
-      Star.belongsToMany(models.Planet, { through: models.StarsPlanets });
     }
   }
   Star.init({
-    name: DataTypes.STRING,
-    size: DataTypes.INTEGER,
+    name: {
+      type: DataTypes.STRING,
+      unique: true
+    },
+    size: {
+      type: DataTypes.STRING,
+      unique: true
+    },
     description: DataTypes.TEXT,
-    galaxyId: DataTypes.INTEGER
+    galaxyId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Galaxy',
+        key: 'id'
+      },
+      unique: true
+    }
   }, {
     sequelize,
-    modelName: 'Star',
-    
+    modelName: 'Star'
   });
   return Star;
 };

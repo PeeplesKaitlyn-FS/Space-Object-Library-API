@@ -4,16 +4,20 @@
 
 {% block main %}
 <h1>All planets:</h1>
-    <ul>
-    {% for planet in planets %}
-        <li>
-            {{ planet.name }} - 
-            <a href="planets/{{ planet.id }}">show</a> | 
-            <a href="planets/{{ planet.id }}/edit">Edit</a> | 
-            <a href="planets/{{ planet.id }}/delete">Delete</a>
-        </li>
-    {% endfor %}
-    </ul>
+    {% if planets %}
+        <ul>
+        {% for planet in planets %}
+            <li>
+                {{ planet.name }} - 
+                <a href="planets/{{ planet.id }}">show</a> | 
+                <a href="planets/{{ planet.id }}/edit">Edit</a> | 
+                <a href="planets/{{ planet.id }}/delete">Delete</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No planets to display.</p>
+    {% endif %}
 
 <a href="planets/new">Create New Planet</a>
 {% endblock %}

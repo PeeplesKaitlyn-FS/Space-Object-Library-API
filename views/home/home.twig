@@ -1,6 +1,11 @@
 {% extends 'layouts/_default.twig' %}
 {% block main_content %}
     {% include 'partials/header.twig' %}
-    <h1>Hello {{ products }}!<h1>
+    <h1>Products:</h1>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }}</li>
+        {% endfor %}
+    </ul>
     {% include 'partials/footer.twig' %}
 {% endblock %}

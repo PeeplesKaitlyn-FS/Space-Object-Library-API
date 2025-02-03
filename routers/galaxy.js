@@ -18,7 +18,6 @@ router.delete(`/:id(\d+)`, galaxyCtlr.remove)
 router.get(`/new`, galaxyCtlr.form)
 router.get(`/:id(\d+)/edit`, galaxyCtlr.form)
 router.get(`/:id(\d+)/delete`, galaxyCtlr.remove)
-router.post(`/:id(\d+)/`, galaxyCtlr.update)
 
 // export "router"
 module.exports = router

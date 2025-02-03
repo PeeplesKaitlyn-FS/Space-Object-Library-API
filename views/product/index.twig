@@ -1,19 +1,23 @@
 {% extends 'layouts/home.twig' %}
 
-{% block pageName %}view all products{% endblock %}
+{% block pageName %}View All Galaxies{% endblock %}
 
 {% block main %}
-<h1>all products:</h1>
+  <h1>All Galaxies:</h1>
+  {% if galaxies %}
     <ul>
-    {% for product in products %}
+      {% for galaxy in galaxies %}
         <li>
-            {{ product.title }} - 
-            <a href="products/{{ product.id }}">show</a> | 
-             <a href="products/{{ product.id }}/edit">show</a>Edit | 
-             <a href="products/{{ product.id }}/delete">show</a>Delete |
+          {{ galaxy.name }} - 
+          <a href="galaxies/{{ galaxy.id }}">View Galaxy</a> | 
+          <a href="galaxies/{{ galaxy.id }}/edit">Edit Galaxy</a> | 
+          <a href="galaxies/{{ galaxy.id }}/delete">Delete Galaxy</a>
         </li>
-    {% endfor %}
+      {% endfor %}
     </ul>
+  {% else %}
+    <p>No galaxies to display.</p>
+  {% endif %}
 
-    <a href="products/new">Create New Product</a>
+  <a href="galaxies/new">Create New Galaxy</a>
 {% endblock %}

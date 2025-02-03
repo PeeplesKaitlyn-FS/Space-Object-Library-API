@@ -3,19 +3,19 @@
 {% block pageName %}View All Galaxies{% endblock %}
 
 {% block main %}
-<h1>All galaxies:</h1>
-    <ul>
+  {{ dump(galaxies) }}
+  <h1>All galaxies:</h1>
+  <ul>
     {% for galaxy in galaxies %}
-        <li>
-            {{ galaxy.dataValues.name }} - 
-            {{ galaxy.dataValues.size }} - 
-            {{ galaxy.dataValues.description }} - 
-            <a href="galaxies/{{ galaxy.dataValues.id }}">show</a> | 
-            <a href="galaxies/{{ galaxy.dataValues.id }}/edit">Edit</a> | 
-            <a href="galaxies/{{ galaxy.dataValues.id }}/delete">Delete</a>
-        </li>
+      <li>
+        {{ galaxy.name }} - 
+        {{ galaxy.size }} - 
+        <a href="galaxies/{{ galaxy.id }}">show</a> | 
+        <a href="galaxies/{{ galaxy.id }}/edit">Edit</a> | 
+        <a href="galaxies/{{ galaxy.id }}/delete">Delete</a>
+      </li>
     {% endfor %}
-    </ul>
+  </ul>
 
-<a href="galaxies/new">Create New Galaxy</a>
+  <a href="galaxies/new">Create New Galaxy</a>
 {% endblock %}

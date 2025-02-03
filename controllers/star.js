@@ -11,38 +11,74 @@ const Star = db.define(`star`, {
 });
 
 const starCtlr = {
-  index: async (req, res) => {
-    const products = await Star.findAll({ raw: true });
-    res.render('./stars/index.twig', { products });
+  getAllStars: async (req, res) => {
+    try {
+      const stars = await Star.findAll({ raw: true });
+      res.render('./stars/index.twig', { stars });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error fetching stars' });
+    }
   },
-  create: async (req, res) => {
-    const name = req.body.name;
-    const description = req.body.description;
-    const star = await Star.create({ name, description });
-    res.json(star);
+  createStar: async (req, res) => {
+    try {
+      const { name, description } = req.body;
+      const star = await Star.create({ name, description });
+      res.json(star);
+    } catch (err) {
+      console.error(err);
+      res.status(400).json({ message: 'Error creating star' });
+    }
   },
-  show: async (req, res) => {
-    const id = req.params.id;
-    const star = await Star.findByPk(id);
-    res.json(star);
+  getStar: async (req, res) => {
+    try {
+      const id = req.params.id;
+      const star = await Star.findByPk(id);
+      if (!star) {
+        res.status(404).json({ message: 'Star not found' });
+      } else {
+        res.json(star);
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error fetching star' });
+    }
   },
-  update: async (req, res) => {
-    const id = req.params.id;
-    const star = await Star.findByPk(id);
-    star.name = req.body.name;
-    star.description = req.body.description;
-    await star.save();
-    res.json(star);
+  updateStar: async (req, res) => {
+    try {
+      const id = req.params.id;
+      const star = await Star.findByPk(id);
+      if (!star) {
+        res.status(404).json({ message: 'Star not found' });
+      } else {
+        star.name = req.body.name;
+        star.description = req.body.description;
+        await star.save();
+        res.json(star);
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(400).json({ message: 'Error updating star' });
+    }
   },
-  remove: async (req, res) => {
-    const id = req.params.id;
-    await Star.destroy({ where: { id } });
-    res.json({ message: "Star deleted successfully" });
+  deleteStar: async (req, res) => {
+    try {
+      const id = req.params.id;
+      await Star.destroy({ where: { id } });
+      res.json({ message: 'Star deleted successfully' });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error deleting star' });
+    }
   },
-  form: async (req, res) => {
+  getStarForm: async (req, res) => {
     if ('undefined' !== typeof req.params.id) {
-      const product = await Star.findByPk(req.params.id);
-      res.render('views/product/_form.twig', { product });
+      const star = await Star.findByPk(req.params.id);
+      if (!star) {
+        res.status(404).json({ message: 'Star not found' });
+      } else {
+        res.render('views/product/_form.twig', { star });
+      }
     } else {
       res.render('views/product/_form.twig');
     }

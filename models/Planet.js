@@ -1,4 +1,5 @@
 const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Planet extends Model {
     /**
@@ -11,9 +12,26 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Planet.init({
-    name: DataTypes.STRING,
-    size: DataTypes.INTEGER,
-    description: DataTypes.TEXT,
+    name: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    size: {
+      type: DataTypes.INTEGER,
+      validate: {
+        min: 0
+      }
+    },
+    description: {
+      type: DataTypes.TEXT,
+      validate: {
+        len: [0, 500] 
+      }
+    }
   }, {
     sequelize,
     modelName: 'Planet',

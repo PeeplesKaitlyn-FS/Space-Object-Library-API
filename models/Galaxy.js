@@ -11,18 +11,45 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Galaxy.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     name: {
       type: DataTypes.STRING,
-      unique: true
+      unique: true,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     },
     size: {
       type: DataTypes.STRING,
-      unique: true
+      unique: true,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     },
-    description: DataTypes.TEXT
+    description: {
+      type: DataTypes.TEXT,
+      validate: {
+        len: [0, 500] 
+      }
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    }
   }, {
     sequelize,
-    modelName: 'Galaxy'
+    modelName: 'Galaxy',
+    timestamps: true
   });
   return Galaxy;
 };

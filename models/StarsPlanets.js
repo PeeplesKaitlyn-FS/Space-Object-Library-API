@@ -1,7 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class StarsPlanets extends Model {
     /**
@@ -16,11 +15,26 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   StarsPlanets.init({
-    starId: DataTypes.INTEGER,
-    planetId: DataTypes.INTEGER
+    starId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Star',
+        key: 'id'
+      }
+    },
+    planetId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Planet',
+        key: 'id'
+      }
+    }
   }, {
     sequelize,
     modelName: 'StarsPlanets',
+    tableName: 'stars_planets',
+    timestamps: false,
+    primaryKey: ['starId', 'planetId']
   });
   return StarsPlanets;
 };
